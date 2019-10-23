@@ -2,10 +2,10 @@ syntax = "proto3";
 
 // Message that vehicle sends every second.
 message LocationMessage {
-    VehicleDescriptor = 1;
+    VehicleDescriptor vehicle_descriptor = 1;
     Position position = 2;
     int64 timestamp = 3; // milliseconds since epoch
-    DoorStatus door_status = 4;
+    DoorOpeningStatus door_status = 4;
 }
 
 // This enum describes the status of the door of a bus.
