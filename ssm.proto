@@ -1,0 +1,130 @@
+syntax = "proto3";
+
+// ExtendedSSM consists of the original SSM header and body as defined by the 2.1 specification with the addition of a VehicleDescriptor message for vehicle identification
+message ExtendedSSM {
+	Header header = 1; //required
+	SSM ssm = 2; //required
+	VehicleDescriptor vehicleDescriptor = 3; //required
+}
+
+// SSM V2.1 specification SSM Header definition
+message Header {
+	int32 protocolVersion = 1; // Fixed to 1, required
+	int32 messageID = 2; // Fixed to 10 (= SSM message ID), required
+	int64 stationID = 3; // required
+
+}
+
+// SSM V2.1 specification SSM definition
+// Remarks:
+// - Fields that are not used in the V2.1 specification are omitted from this protobuf definition
+// - All types defined in the V2.1 spec which only contain one field with a scalar value or string (ex. MinuteOfTheYear, Dsecond...) are simplified and are not defined as separate types for simplification
+message SSM {
+	int64 timeStamp = 1; // [MinuteOfTheYear], required
+	int64 second = 2; // [Dsecond], required
+	int32 sequenceNumber = 3; // [MsgCount], required
+	repeated SignalStatus status = 4; // [SignalStatus-List], required
+}
+
+// SSM V2.1 specification SignalStatus data frame
+message SignalStatus {
+	int32 sequenceNumber = 1; // [MsgCount], required
+	IntersectionReferenceID id = 2;  // [IntersectionReferenceID], required
+	repeated SignalStatusPackage sigStatus = 3; // [SignalStatusPackageList], required
+
+	// SSM V2.1 specification IntersectionReferenceID Type as defined at level 1.2
+	message IntersectionReferenceID {
+		int64 region = 1; // [RoadRegulatorID], required
+		int64 id = 2; // [IntersectionID], required
+	}
+}
+
+// SSM V2.1 specification SignalStatusPackage data frame
+message SignalStatusPackage {
+	SignalRequesterInfo requestor = 1; // [SignalRequesterInfo], required
+
+	// inboundOn should either be approach or connection based on the SRM, [IntersectionAccessPoint], required
+	oneof inboundOn {
+		int64 approach = 2; 
+		int64 connection = 3;
+	}
+
+	int64 minute = 4; // [MinuteOfTheYear], required
+	int64 second = 5; // [Dsecond], required
+	int64 duration = 6; // [Dsecond], required
+	PrioritizationResponseStatus status = 7;  // required
+
+	// SSM V2.1 specification SignalRequesterInfo Type as defined at level 2.1
+	message SignalRequesterInfo {
+		VehicleID id = 1; // [VehicleID], required
+		string request = 2; // [RequestID], required
+		int32 sequenceNumber = 3; // [MsgCount], required
+		RequestorType typeData = 4; //[RequestorType], required
+	
+		// SSM V2.1 specification Vehicle ID as defined at level 3
+		message VehicleID {
+			int64 stationID = 1; // [StationID]
+		}
+	
+	
+		// SSM V2.1 specification Requestor Type as defined at level 4
+		message RequestorType {
+			BasicVehicleRole role = 1;  // [BasicVehicleRole] required
+			RequestSubRole subRole = 2; // [RequestSubRole]
+	
+			// SSM V2.1 specification Vehicle Roles
+			enum BasicVehicleRole {
+				BASICVEHICLE = 0;
+				PUBLICTRANSPORT = 1;
+				SPECIALTRANSPORT = 2;
+				DANGEROUSGOODS = 3;
+				ROADWORK = 4;
+				ROADRESCUE = 5;
+				EMERGENCY = 6;
+				SAFETYCAR = 7;
+			}
+	
+			// SSM V2.1 specification SubRoles
+			enum RequestSubRole {
+				REQUESTSUBROLEUNKNOWN = 0;
+				REQUESTSUBROLE1 = 1;
+				REQUESTSUBROLE2 = 2;
+				REQUESTSUBROLE3 = 3;
+				REQUESTSUBROLE4 = 4;
+				REQUESTSUBROLE5 = 5;
+				REQUESTSUBROLE6 = 6;
+				REQUESTSUBROLE7 = 7;
+				REQUESTSUBROLE8 = 8;
+				REQUESTSUBROLE9 = 9;
+				REQUESTSUBROLE10 = 10;
+				REQUESTSUBROLE11 = 11;
+				REQUESTSUBROLE12 = 12;
+				REQUESTSUBROLE13 = 13;
+				REQUESTSUBROLE14 = 14;
+				REQUESTSUBROLERESERVED = 15;
+			}
+		}
+	}
+
+	// SSM V2.1 specification PrioritizationResponseStatus values
+	enum PrioritizationResponseStatus {
+		UNKNOWN = 0;
+		REQUESTED = 1;
+		PROCESSING = 2;
+		WATCHOTHERTRAFFIC = 3;
+		GRANTED = 4;
+		REJECTED = 5;
+		MAXPRESENCE = 6;
+		RESERVICELOCKED = 7;
+	}
+}
+
+// Fields to identify vehicle
+message VehicleDescriptor {
+    string data_owner_code = 1; // required
+	// One of block_code and vehicle_number is 
+	int32 block_code = 2;
+	int32 vehicle_number = 3;
+}
+
+
