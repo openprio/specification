@@ -9,14 +9,16 @@ message LocationMessage {
     StopButtonStatus stop_button_status = 5;
 }
 
-// This enum describes the status of the door of a bus.
+// This enum describes the status of the (unlocking of the) doors of the vehicle. 
+// In case passenger open the doors themselves DoorOpenStatus is OPEN when the door are unlocked. When the doors are locked the status is CLOSED:
 enum DoorOpeningStatus {
     CLOSED = 0;
     OPEN = 1;
     NO_DATA = 2;
 }
 
-// This enum describes if the stop button is activated within the bus (that means that the bus will stop at it's next stop)
+// This enum describes if the stop button is activated 
+// indicating that passengers want tot get out at it's next stop
 enum StopButtonStatus {
     NOT_ACTIVATED = 0;
     ACTIVATED = 1;
@@ -30,8 +32,9 @@ message Position {
 
     float speed = 4; // speed in m/s
     float bearing = 5; // bearing in degrees
-    // the odometer is always  used relatively, the odometer can be the total distance a vehicle has traveled in
-    // it's livetime, this day or during the trip it's currently on (ressetting more often is not allowed) 
+    // the odometer is always used relatively, 
+    // the odometer may be either the total distance a vehicle has traveled during its lifetime,
+    // today or during the current trip (resetting more often is not allowed)
     int64 odometer = 6; // in meters
 }
 
