@@ -6,12 +6,20 @@ message LocationMessage {
     Position position = 2;
     int64 timestamp = 3; // milliseconds since epoch
     DoorOpeningStatus door_status = 4;
+    StopButtonStatus stop_button_status = 5;
 }
 
 // This enum describes the status of the door of a bus.
 enum DoorOpeningStatus {
     CLOSED = 0;
     OPEN = 1;
+    NO_DATA = 2;
+}
+
+// This enum describes if the stop button is activated within the bus (that means that the bus will stop at it's next stop)
+enum StopButtonStatus {
+    NOT_ACTIVATED = 0;
+    ACTIVATED = 1;
     NO_DATA = 2;
 }
 
@@ -22,6 +30,9 @@ message Position {
 
     float speed = 4; // speed in m/s
     float bearing = 5; // bearing in degrees
+    // the odometer is always  used relatively, the odometer can be the total distance a vehicle has traveled in
+    // it's livetime, this day or during the trip it's currently on (ressetting more often is not allowed) 
+    int64 odometer = 6; // in meters
 }
 
 // Fields to identify vehicle
