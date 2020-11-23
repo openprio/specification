@@ -10,11 +10,12 @@ message LocationMessage {
 }
 
 // This enum describes the status of the (unlocking of the) doors of the vehicle. 
-// In case passenger open the doors themselves DoorOpenStatus is OPEN when the door are unlocked. When the doors are locked the status is CLOSED:
+// DoorOpenStatus is OPEN when the doors are open. When the doors are locked the status is CLOSED. The DoorOpenStatus is RELEASED  when the passengers can open the doors but de the doors are physically closed.
 enum DoorOpeningStatus {
     CLOSED = 0;
     OPEN = 1;
     NO_DATA = 2;
+    RELEASED = 3;
 }
 
 // This enum describes if the stop button is activated 
@@ -28,7 +29,7 @@ enum StopButtonStatus {
 message Position {
     float latitude = 1; // WGS 84
     float longitude = 2; // WGS 84
-    float accuracy = 3;
+    float accuracy = 3; // in m
 
     float speed = 4; // speed in m/s
     float bearing = 5; // bearing in degrees
