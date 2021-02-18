@@ -37,6 +37,7 @@ message Position {
     // the odometer may be either the total distance a vehicle has traveled during its lifetime,
     // today or during the current trip (resetting more often is not allowed)
     int64 odometer = 6; // in meters
+    float hdop = 7; // horizontal dilution of precision. https://en.m.wikipedia.org/wiki/Dilution_of_precision_(navigation)
 }
 
 // Fields to identify vehicle
