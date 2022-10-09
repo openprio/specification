@@ -47,4 +47,20 @@ message VehicleDescriptor {
     // One of block_code and vehicle_number is required
     int32 block_code = 2;
     int32 vehicle_number = 3;
+
+    JourneyDescriptor journey_descriptor = 4; // optional
+}
+
+// JourneyDescriptor are optional parameters to describe a journey
+// When JourneyDescriptor data is filled OpenPrio data can be combined with a static timetable without the use of
+// other realtime sources like for example KV6 or SIRI-VM (those are used to link the vehicle_number / block_code with a journey_number). 
+// To fill in the JourneyDescriptor you need more inteligence in the system that creates the OpenPrio data, because the system
+// should be aware what Journey the vehicle is running on. 
+// If you want to use journey_descriptor you need to fill in all the parameters within the JourneyDescriptor. 
+message JourneyDescriptor {
+    int32 journey_number = 1;
+    // Unique line number within a data_owner (operator).
+    string line_planning_number = 2;
+    // The operating_day this journey is scheduled, be aware this is not necessarily the current date. 
+    string operating_day = 3;
 }
