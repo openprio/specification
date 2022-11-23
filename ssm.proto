@@ -1,10 +1,14 @@
 syntax = "proto3";
 
-// ExtendedSSM consists of the original SSM header and body as defined by the 2.1 specification with the addition of a VehicleDescriptor message for vehicle identification
+// ExtendedSSM consists of the original SSM header and body as defined by the 2.1 specification 
+// with the addition of a VehicleDescriptor message for vehicle identification, a possible reason for a PBC rejection 
+// and a IntersectionDescription with the relative (Odometer) position of the Intersection.
 message ExtendedSSM {
 	Header header = 1; //required
 	SSM ssm = 2; //required
 	VehicleDescriptor vehicleDescriptor = 3; //required
+	PBCRejection pbcRejection = 4;
+	RelativeIntersectionDescriptor RelativeIntersectionDescriptor = 5; 
 }
 
 // SSM V2.1 specification SSM Header definition
@@ -12,7 +16,6 @@ message Header {
 	int32 protocolVersion = 1; // Fixed to 1, required
 	int32 messageID = 2; // Fixed to 10 (= SSM message ID), required
 	int64 stationID = 3; // required
-
 }
 
 // SSM V2.1 specification SSM definition
@@ -127,4 +130,25 @@ message VehicleDescriptor {
 	int32 vehicle_number = 3;
 }
 
+// The enum PBCRejection, specifies the reason for not sending SRM message at passage of iVRI 
+// intersection.
+// NO_ERROR: Not applicable for this SSM message.  
+// NO_MATCH: Public transport movement over intersection does not occur in Pbc
+// TOO_EARLY: Based on current punctuality, no request has been sent in accordance 
+// with PBC
+enum PBCRejection {
+	NO_ERROR = 0;
+	NO_MATCH = 1; 
+	TOO_EARLY = 2;
+}
+
+// Field to identify Intersection based on predicted relative (Odometer) distance at the stopline.
+// The relative (Odometer) distance of the stopLine may be used in public transport 
+// to show the actual priority response status of consecutively intersections 
+// without the need to use MAP files.
+// Based on the Odometervalue in the OpenPrio message the PRG should calculate the 
+// predicted Odometer distance of the stopLine for each Intersection. 
+message RelativeIntersectionDescriptor {
+    int64 predicted_odometer_reading_at_stopline = 1;
+}
 
