@@ -132,10 +132,9 @@ message VehicleDescriptor {
 
 // The enum PBCRejection, specifies the reason for not sending SRM message at passage of iVRI 
 // intersection.
-// NO_ERROR: Not applicable for this SSM message.  
-// NO_MATCH: Public transport movement over intersection does not occur in Pbc
-// TOO_EARLY: Based on current punctuality, no request has been sent in accordance 
-// with PBC
+// NO_ERROR: Match of movement of public transport vehicle at the intersection with the PBC. Not necessary for PRG to send a reply in this situation.  
+// NO_MATCH: Public transport movement over intersection does not occur with Pbc
+// TOO_EARLY: Based on current punctuality, no request has been sent in accordance with PBC
 enum PBCRejection {
 	NO_ERROR = 0;
 	NO_MATCH = 1; 
