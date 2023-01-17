@@ -40,6 +40,13 @@ message Position {
     float hdop = 7; // horizontal dilution of precision. https://en.m.wikipedia.org/wiki/Dilution_of_precision_(navigation)
 }
 
+// This enum describes which side of a rail vehicle is in front.
+enum DrivingDirection {
+    UNDEFINED = 0;
+    A_SIDE = 1;
+    B_SIDE = 2;
+}
+
 // Fields to identify vehicle
 message VehicleDescriptor {
     string data_owner_code = 1; // required
@@ -47,6 +54,12 @@ message VehicleDescriptor {
     // One of block_code and vehicle_number is required
     int32 block_code = 2;
     int32 vehicle_number = 3;
+    // Optional, only relevant for vehicles that can run in two directions. 
+    DrivingDirection driving_direction  = 5; 
+    // Optional, number of vehicles being coupled in total including the reporting vehicle.
+    // For a single tram this is one, for two trams combined this value is two. When not reported (=0) 1 can be assumed.
+    int32 number_of_vehicles_coupled = 6; 
+
 
     JourneyDescriptor journey_descriptor = 4; // optional
 }
