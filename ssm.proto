@@ -8,7 +8,8 @@ message ExtendedSSM {
 	SSM ssm = 2; //required
 	VehicleDescriptor vehicleDescriptor = 3; //required
 	PBCRejection pbcRejection = 4;
-	RelativeIntersectionDescriptor RelativeIntersectionDescriptor = 5; 
+	RelativeIntersectionDescriptor RelativeIntersectionDescriptor = 5;
+	PriorityCancellationReason priorityCancellationReason = 6; 
 }
 
 // SSM V2.1 specification SSM Header definition
@@ -149,5 +150,17 @@ enum PBCRejection {
 // predicted Odometer distance of the stopLine for each Intersection. 
 message RelativeIntersectionDescriptor {
     int64 predicted_odometer_reading_at_stopline = 1;
+}
+
+enum PriorityCancellationReason {
+	NOT_SET = 0;
+	// The front of vehicle passes stopline.
+	PASSING_STOPLINE = 1;
+	// Changed route, not passing the intersection anymore.
+	CHANGED_ROUTE = 2;
+	// Change in Connection and/or approach at the same intersection.
+	CHANGED_CONNECTION = 3;
+	// No reply SSM received on SRM .
+	NO_SSM_RECEIVED = 4;
 }
 
