@@ -26,6 +26,18 @@ enum StopButtonStatus {
     STOP_BUTTON_STATUS_ACTIVATED = 2;
 }
 
+// This enum describes the bus/tram will pass the stop without stopping. 
+// The status is used in the view area of the stop, where the driver can see that no passengers want to get on or off.
+// or the driver wants to trigger the departure standing at a TimingStop with closed Doors.
+// PASSAGE_STOP_STATUS_TRUE means that the driver triggered an action
+// PASSAGE_STOP_STATUS_UNKNOWN means that the functionality is not implemented
+// PASSAGE_STATUS_FALSE should be the default when this functionality is implemented.
+enum PassageStopStatus {
+    PASSAGE_STOP_STATUS_UNKNOWN = 0;
+    PASSAGE_STOP_STATUS_FALSE = 1;
+    PASSAGE_STOP_STATUS_TRUE = 2;
+}
+
 message Position {
     float latitude = 1; // WGS 84
     float longitude = 2; // WGS 84
