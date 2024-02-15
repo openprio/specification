@@ -11,7 +11,7 @@ message LocationMessage {
 }
 
 // This enum describes the status of the (unlocking of the) doors of the vehicle. 
-// DoorOpenStatus is OPEN when the doors are open. When the doors are locked the status is CLOSED. The DoorOpenStatus is RELEASED  when the passengers can open the doors but de the doors are physically closed.
+// DoorOpenStatus is OPEN when the doors are open. When the doors are locked the status is CLOSED. The DoorOpenStatus is RELEASED  when the passengers can open the doors by pressing a button. If no seperate Release status is available in the vehicle, RELEASED is passed as OPEN.
 enum DoorOpeningStatus {
     DOOR_OPENING_STATUS_NO_DATA = 0;
     DOOR_OPENING_STATUS_CLOSED = 1;
@@ -42,15 +42,18 @@ enum PassageStopStatus {
 message Position {
     float latitude = 1; // WGS 84
     float longitude = 2; // WGS 84
-    float accuracy = 3; // in m
-
+    
     float speed = 4; // speed in m/s
     float bearing = 5; // bearing in degrees
     // the odometer is always used relatively, 
     // the odometer may be either the total distance a vehicle has traveled during its lifetime,
     // today or during the current trip (resetting more often is not allowed)
     int64 odometer = 6; // in meters
-    float hdop = 7; // horizontal dilution of precision. https://en.m.wikipedia.org/wiki/Dilution_of_precision_(navigation)
+    
+    // At least one of accuracy, hdop or number_of_received_satellites is required. 
+    float accuracy = 3; // in m optional, when this value is 0.0 you can assume that is not provided.
+    float hdop = 7; // horizontal dilution of precision. https://en.m.wikipedia.org/wiki/Dilution_of_precision_(navigation), optional, when value is 0.0 you can assume that is not provided.
+    int32 number_of_received_satellites = 8; // number of received GPS satellites, optional, when value is unknown -1 should be provided.
 }
 
 // This enum describes which side of a rail vehicle is in front.
