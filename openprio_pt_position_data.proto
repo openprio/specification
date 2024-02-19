@@ -51,9 +51,9 @@ message Position {
     int64 odometer = 6; // in meters
     
     // At least one of accuracy, hdop or number_of_received_satellites is required. 
-    float accuracy = 3; // in m optional, when this value is 0.0 you can assume that is not provided.
-    float hdop = 7; // horizontal dilution of precision. https://en.m.wikipedia.org/wiki/Dilution_of_precision_(navigation), optional, when value is 0.0 you can assume that is not provided.
-    int32 number_of_received_satellites = 8; // number of received GPS satellites, optional, when value is unknown -1 should be provided.
+    float accuracy = 3; // in m optional, value 0.0 is interpreted as not provided.
+    float hdop = 7; // horizontal dilution of precision. https://en.m.wikipedia.org/wiki/Dilution_of_precision_(navigation), optional, value 0.0 is interpreted as not provided.
+    int32 number_of_received_satellites = 8; // number of received GPS satellites, optional, value -1 should be used when unknown/not available.
 }
 
 // This enum describes which side of a rail vehicle is in front.
