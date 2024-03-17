@@ -4,7 +4,8 @@ syntax = "proto3";
 // and is send to the producers of openprio_pt_position_data.
 message ExtendedRawSRM {
 	VehicleDescriptor vehicleDescriptor = 1; //required
-	// the raw SRM message (encoded in ASN.1 format) that is sent to the TLC (Traffic Light Controller) by the PRG (Priority Request Generator). 
+	// the raw SRM message (encoded in ASN.1 format) that is sent to the TLC (Traffic Light Controller) by the PRG (Priority Request Generator).
+        // the definition of the ASN.1 SRM message is specified by ETSI and can be found here https://forge.etsi.org/rep/ITS/asn1/is_ts103301/-/blob/release2/SREM-PDU-Descriptions.asn 
 	bytes srm = 2; //required
 }
 
