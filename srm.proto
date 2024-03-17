@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+// ExtendedSRM consists of the raw SRM message and a VehicleDescriptor
+// and is send to the producers of openprio_pt_position_data.
+message ExtendedRawSRM {
+	VehicleDescriptor vehicleDescriptor = 1; //required
+	// the raw SRM message (encoded in ASN.1 format) that is sent to the TLC (Traffic Light Controller) by the PRG (Priority Request Generator). 
+	bytes srm = 2; //required
+}
+
+
+// Fields to identify vehicle
+message VehicleDescriptor {
+    string data_owner_code = 1; // required
+    
+    // One of block_code and vehicle_number is required
+    int32 block_code = 2;
+    int32 vehicle_number = 3;
+}
+
