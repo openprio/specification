@@ -56,7 +56,9 @@ message Position {
     int32 number_of_received_satellites = 8; // number of received GPS satellites, optional, value -1 should be used when unknown/not available.
 }
 
-// This enum describes which side of a rail vehicle is in front.
+// This enum describes which side of a 2-direction rail vehicle is in front.
+// If a vehicle can only travel in one direction or if the information is unknown 
+// UNDEFINED should be specified. 
 enum DrivingDirection {
     UNDEFINED = 0;
     A_SIDE = 1;
@@ -72,8 +74,9 @@ message VehicleDescriptor {
     int32 vehicle_number = 3;
     // Optional, only relevant for vehicles that can run in two directions. 
     DrivingDirection driving_direction  = 5; 
-    // Optional, number of vehicles being coupled in total including the reporting vehicle.
-    // For a single tram this is one, for two trams combined this value is two. When not reported (=0) 1 can be assumed.
+    // Optional, vehicles can drive coupled, this value is used to represent the number of units that are combined.
+    // For a single tram this is one, for two trams combined this value is two. 
+    // When this information is unknown or a a vehicle can't be coupled 0 should be filled in.
     int32 number_of_vehicles_coupled = 6; 
 
 
